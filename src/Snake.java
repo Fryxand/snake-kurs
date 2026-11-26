@@ -30,4 +30,10 @@ public class Snake {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+    public void move() {
+        Point head = getHead();
+        segments.addFirst(new Point(head.x + direction.dx(), head.y + direction.dy()));
+        segments.removeLast();
+    }
 }
