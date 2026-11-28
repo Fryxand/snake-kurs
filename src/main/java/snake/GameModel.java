@@ -8,8 +8,8 @@ public class GameModel {
     private static final int SNAKE_LENGTH = 8;
 
     private final Random random;
-    private final Field field;
-    private final Snake snake;
+    private Field field;
+    private Snake snake;
 
     public GameModel(int cols, int rows) {
         this(cols, rows, new Random());
@@ -25,7 +25,18 @@ public class GameModel {
     }
 
     public void tick() {
+        snake.setDirection(field.reflect(snake.getHead(), snake.getDirection()));
         snake.move();
+    }
+
+    public void resize(int cols, int rows) {
+        if (cols < MIN_CELLS || rows < MIN_CELLS) {
+            return;
+        }
+        field = new Field(cols, rows);
+        if (!field.containsAll(snake.getSegments())) {
+            snake = createSnake();
+        }
     }
 
     public Snake getSnake() {
